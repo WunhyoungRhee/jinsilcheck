@@ -1,0 +1,71 @@
+﻿# CLAUDE.md
+
+## 프로젝트
+진실체크(JinsilCheck) — 노년층(60대 이상)을 위한 딥페이크 탐지 PWA 웹앱
+
+## 핵심 문서
+- SPEC.md: 기술 명세서 (시스템 아키텍처, API 스펙, UI 와이어프레임, PWA 설정)
+- ImplementationPlan.md: 6 Sprint(12주) 구현 계획 (Task별 코드 예시 포함)
+
+## 기술 스택
+- Frontend: React 18 + TypeScript + Vite + vite-plugin-pwa
+- Backend: Azure Functions (Node.js 20)
+- Database: Azure Cosmos DB (Serverless, TTL 24시간)
+- Hosting: Azure Static Web Apps (Free → Standard)
+- AI APIs: SightEngine Deepfake API (1차), Hive AI Detection API (2차 교차검증)
+- CI/CD: GitHub Actions (SWA 자동 통합)
+
+## 핵심 기능
+사용자가 SNS에서 받은 URL을 붙여넣으면 → AI가 딥페이크 여부를 판별 → 신호등(안전/주의/위험)으로 결과 표시
+
+## 탐지 파이프라인
+1. URL 입력 → 유효성 검증 → 플랫폼 식별 (YouTube, Instagram, Facebook, X, TikTok, 카카오, 네이버 등)
+2. Cosmos DB 캐시 확인 (24시간 TTL)
+3. OG 메타태그/oEmbed로 이미지 추출
+4. SightEngine API로 1차 탐지 (1~3초)
+5. 점수 0.20~0.80 구간이면 Hive AI API로 2차 교차검증
+6. 신호등 결과 + 한국어 평문 설명 반환
+
+## UI/UX 규칙 (노년층 최적화 — 반드시 준수)
+- 폰트: 본문 최소 18px, 제목 24px 이상
+- 터치 영역: 모든 버튼/입력 필드 최소 60×60px (일반 48px보다 큼)
+- 색상 대비: WCAG AAA 기준 7:1 이상
+- 워크플로우: "붙여넣기 → 확인하기" 2탭으로 완료
+- 결과 표시: 신호등 체계 (🟢안전 / 🟡주의 / 🔴위험) + 큰 게이지 + 평문 설명
+- 배제할 UI: 드롭다운, 슬라이더, 제스처 전용 조작, 햄버거 메뉴, 탭 바, 팝업/모달, 자동 캐러셀
+- 인증: 없음 (비로그인, 회원가입 없음)
+
+## 코딩 규칙
+- 모든 사용자 대면 텍스트는 한국어로 작성
+- 에러 메시지는 반드시 한국어 평문으로 (기술 용어 사용 금지)
+- API 키는 절대 코드에 포함하지 않음 (Azure Functions Application Settings 환경변수 사용)
+- 확정적 표현("가짜입니다") 대신 확률적 표현("AI가 조작 흔적을 발견했습니다. 신뢰도: 87%") 사용
+- 모든 결과에 면책 고지 포함: "ⓘ AI가 분석한 참고용 정보입니다"
+
+## 프로젝트 구조
+```
+jinsilcheck/
+├── src/                    # React PWA 프론트엔드
+│   ├── views/              # MainView, HistoryView, GuideView
+│   ├── components/         # UrlInput, ResultCard, SignalLight 등
+│   ├── hooks/              # useAnalyze, useHistory
+│   └── utils/              # api-client, url-validator
+├── api/                    # Azure Functions 백엔드
+│   ├── analyze/            # URL 분석 엔드포인트
+│   ├── analyze-image/      # 이미지 업로드 엔드포인트
+│   ├── health/             # 상태 확인 엔드포인트
+│   └── lib/                # 공유 라이브러리 (파이프라인, API 클라이언트 등)
+├── public/                 # PWA 매니페스트, 아이콘, SWA 설정
+├── SPEC.md
+├── ImplementationPlan.md
+└── CLAUDE.md
+```
+
+## 현재 진행 상태
+- [x] Sprint 1: 프로젝트 세팅 + Azure 환경 구축
+- [x] Sprint 2: Backend — URL 파싱 + 콘텐츠 추출
+- [x] Sprint 3: Backend — AI 탐지 엔진 연동
+- [x] Sprint 4: Frontend — 핵심 UI 구현
+- [x] Sprint 5: 통합 + PWA 완성
+- [x] Sprint 6: 테스트 + 베타 배포 (rate limiting, XSS 방지, 이미지 업로드 분석 완성)
+

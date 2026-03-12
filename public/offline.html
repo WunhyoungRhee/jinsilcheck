@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>진실체크 - 오프라인</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+      background: #F5F8FC;
+      color: #1B3A5C;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+      text-align: center;
+    }
+    .container { max-width: 400px; }
+    .icon { font-size: 72px; margin-bottom: 24px; }
+    h1 { font-size: 24px; margin-bottom: 16px; }
+    p { font-size: 18px; line-height: 1.6; color: #555; }
+    .retry {
+      display: inline-block;
+      margin-top: 32px;
+      padding: 16px 32px;
+      font-size: 18px;
+      background: #2E75B6;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+    <h1>인터넷에 연결되어 있지 않습니다</h1>
+    <p>
+      링크를 확인하려면 인터넷 연결이 필요합니다.<br />
+      Wi-Fi 또는 데이터를 켜고 다시 시도해 주세요.
+    </p>
+    <a href="/" class="retry">다시 시도</a>
+  </div>
+</body>
+</html>

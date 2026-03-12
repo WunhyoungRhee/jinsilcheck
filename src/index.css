@@ -1,0 +1,104 @@
+/* 진실체크 — 노년층 최적화 글로벌 스타일 */
+
+:root {
+  /* 폰트 크기 */
+  --font-body: 18px;
+  --font-heading: 24px;
+  --font-result: 28px;
+  --font-signal: 72px;
+  --font-caption: 14px;
+
+  /* 터치 영역 */
+  --touch-min: 60px;
+  --touch-main: 64px;
+  --touch-gap: 16px;
+
+  /* 색상 — WCAG AAA */
+  --color-primary: #1b3a5c;
+  --color-accent: #2e75b6;
+  --color-action: #e67e22;
+  --color-bg: #ffffff;
+  --color-surface: #f5f8fc;
+
+  /* 신호등 색상 */
+  --color-safe: #27ae60;
+  --color-caution: #f39c12;
+  --color-danger: #e74c3c;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕',
+    'Noto Sans KR', sans-serif;
+  font-size: var(--font-body);
+  line-height: 1.6;
+  color: var(--color-primary);
+  background-color: var(--color-bg);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+  font-size: var(--font-body);
+  cursor: pointer;
+  border: none;
+  border-radius: 12px;
+  min-height: var(--touch-min);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.2s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+input {
+  font-family: inherit;
+  font-size: var(--font-body);
+  border: 2px solid #ccc;
+  border-radius: 12px;
+  padding: 0 16px;
+  min-height: var(--touch-min);
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+input:focus {
+  border-color: var(--color-accent);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-size: var(--font-body);
+}
